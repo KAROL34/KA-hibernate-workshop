@@ -17,25 +17,22 @@ public class SchoolClassRepository {
     return entityManager.find(SchoolClass.class, id).getTests();
   }
 
-  public List<VerbalTest> getAllVerbalTests(long id) {
+  public List<VerbalTest> getAllVerbalTestsBySchoolClassId(long id) {
     return entityManager
         .createQuery(
-            "select t from SchoolClass sc join sc.tests t where t.class = VerbalTest and sc.id = :id",
-            Test.class)
+            "select vt from VerbalTest vt join vt.schoolClass sc where sc.id = :id",
+            VerbalTest.class)
         .setParameter("id", id)
         .getResultStream()
-        .map(s -> (VerbalTest) s)
         .collect(Collectors.toList());
   }
 
-  public List<WrittenTest> getAllWrittenTests(long id) {
+  public <T extends Test> List<T> getTestsByType(Class<T> type) {
     return entityManager
-        .createQuery(
-            "select t from SchoolClass sc join sc.tests t where type(t) = WrittenTest and sc.id = :id",
-            Test.class)
-        .setParameter("id", id)
+        .createQuery("from Test t where type(t) = :type", Test.class)
+        .setParameter("type", type)
         .getResultStream()
-        .map(s -> (WrittenTest) s)
+        .map(t -> (T) t)
         .collect(Collectors.toList());
   }
 }

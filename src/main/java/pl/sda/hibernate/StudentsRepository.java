@@ -24,20 +24,28 @@ public class StudentsRepository {
   }
 
   public Student createStudent(Student student) {
+    entityManager.getTransaction().begin();
     entityManager.persist(student);
+    entityManager.getTransaction().commit();
     return student;
   }
 
   public void updateStudent(Student student) {
+    entityManager.getTransaction().begin();
     entityManager.merge(student);
+    entityManager.getTransaction().commit();
   }
 
   public void deleteStudent(Student student) {
+    entityManager.getTransaction().begin();
     entityManager.remove(student);
+    entityManager.getTransaction().commit();
   }
 
   public void refreshStudent(Student student) {
+    entityManager.getTransaction().begin();
     entityManager.refresh(student);
+    entityManager.getTransaction().commit();
   }
 
   public List<Student> getStudents() {

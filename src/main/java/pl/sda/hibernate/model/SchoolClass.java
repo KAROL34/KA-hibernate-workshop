@@ -8,7 +8,9 @@ import javax.persistence.*;
 @Entity
 public class SchoolClass {
 
-  @Id @GeneratedValue private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   private String name;
 
@@ -19,6 +21,8 @@ public class SchoolClass {
 
   @OneToMany(mappedBy = "schoolClass")
   private List<Test> tests;
+
+  @ElementCollection private List<String> lessonTopics;
 
   public SchoolClass() {}
 
@@ -43,6 +47,7 @@ public class SchoolClass {
 
   public void setTeacher(Teacher teacher) {
     this.teacher = teacher;
+    teacher.getSchoolClasses().add(this);
   }
 
   public List<Student> getStudents() {
@@ -51,6 +56,14 @@ public class SchoolClass {
 
   public List<Test> getTests() {
     return tests;
+  }
+
+  public List<String> getLessonTopics() {
+    return lessonTopics;
+  }
+
+  public void addLessonTopic(String topic) {
+    this.lessonTopics.add(topic);
   }
 
   @Override
