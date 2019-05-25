@@ -4,7 +4,7 @@ Uruchom skrypt `create_database.sql` na użytkowniku **root** bazy danych.
 
 # Struktura danych
 
-
+![dane](images/diagram.png)
 
 
 # Zadania
@@ -31,6 +31,9 @@ Uruchom skrypt `create_database.sql` na użytkowniku **root** bazy danych.
    
 5. Zaimplementuj metody w `SchoolClassRepository`.
 
-6. Zmodyfikuj metody `getStudents`, `findStudentsByName`, `getStudentsCount`, `getClassesByStudentId` oraz `findStudentsByName` tak by używały **NamedQueries**.
+6. Użyj `FullName` jako obiekt *embedded* zamiast `firstName` i `lastName` w `Teacher` i `Student`. 
 
-7. Użyj `FullName` jako obiekt *embedded* zamiast `firstName` i `lastName` w `Teacher` i `Student`. 
+7. Zmodyfikuj metody w `StudentRepository` i `TeacherRepository` tak by używały **NamedQueries**.
+
+7. Zmodyfikuj metody w `StudentRepository` i `TeacherRepository` tak by używały **Criteria API**.
+
