@@ -6,6 +6,10 @@ import java.util.StringJoiner;
 import javax.persistence.*;
 
 @Entity
+@NamedQuery(
+        name = "getSchoolClassByName",
+        query = "from SchoolClass t where name = :name"
+)
 public class SchoolClass {
 
   @Id
@@ -22,7 +26,10 @@ public class SchoolClass {
   @OneToMany(mappedBy = "schoolClass")
   private List<Test> tests;
 
-  @ElementCollection private List<String> lessonTopics;
+  @CollectionTable(name = "LessonTopics", joinColumns = @JoinColumn(name = "schoolClass_id"))
+  @Column(name="topic")
+  @ElementCollection
+  private List<String> lessonTopics;
 
   public SchoolClass() {}
 

@@ -1,8 +1,9 @@
 package pl.sda.hibernate;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.Test;
@@ -58,6 +59,16 @@ class SchoolClassRepositoryTest {
   }
 
   @Test
+  void getSchoolClassByNameTest() {
+    assertThat(schoolClassRepository.getSchoolClassByName("Matematyka")).contains(new SchoolClass(1L, "Matematyka"));
+  }
+
+  @Test
+  void getSchoolClassByNameTestFailure() {
+    assertThat(schoolClassRepository.getSchoolClassByName("Rosyjski")).isEmpty();
+  }
+
+  @Test
   void testAddTopic() {
 
     entityManager.getTransaction().begin();
@@ -69,9 +80,17 @@ class SchoolClassRepositoryTest {
     assertThat(
             new JdbcTemplate(db.getDatasource())
                 .queryForObject(
-                    "SELECT lessonTopics FROM SchoolClass_lessonTopics WHERE lessonTopics = ?",
+                    "SELECT topic FROM LessonTopics WHERE topic = ?",
                     String.class,
                     "Dzielenie"))
         .isEqualTo("Dzielenie");
+  }
+
+  @Test
+  void testGetTopics() {
+
+    assertThat(schoolClassRepository.getTopics(Arrays.asList(1L, 2L, 3L)))
+            .containsExactlyInAnyOrder("Ułamki","Funkcja kwadratowa","Optyka","Mechanika","Estry","Kwasy");
+
   }
 }
