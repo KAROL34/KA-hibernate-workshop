@@ -13,6 +13,14 @@ public class StudentNotesRepository {
     this.entityManager = entityManager;
   }
 
+  public Double getAverageBySchoolClass(long id) {
+    return entityManager
+        .createQuery(
+            "select avg(sn.value) from StudentNote sn where sn.schoolClass.id = :id", Double.class)
+        .setParameter("id", id)
+        .getSingleResult();
+  }
+
   public List<StudentNote> getNotesByStudentId(long id) {
     return entityManager
         .createQuery(
@@ -29,13 +37,5 @@ public class StudentNotesRepository {
             NoteWithClassName.class)
         .setParameter("id", id)
         .getResultList();
-  }
-
-  public Double getAverageBySchoolClass(long id) {
-    return entityManager
-        .createQuery(
-            "select avg(sn.value) from StudentNote sn where sn.schoolClass.id = :id", Double.class)
-        .setParameter("id", id)
-        .getSingleResult();
   }
 }
