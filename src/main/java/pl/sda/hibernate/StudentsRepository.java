@@ -67,20 +67,22 @@ public class StudentsRepository {
     return query.getResultList();
   }
 
-  public List<SchoolClass> getClassesByStudentId(long id) {
+  public List<SchoolClass> getClassesByStudentId(long studentId) {
     TypedQuery<SchoolClass> query =
         entityManager.createQuery(
             "select sc from SchoolClass sc join sc.students s where s.id = :id", SchoolClass.class);
-    query.setParameter("id", id);
+    query.setParameter("id", studentId);
     return query.getResultList();
   }
 
-  public List<Student> getAllFriendStudentsByStudentId(long id) {
+  public List<Student> getAllFriendStudentsByStudentId(long studentId) {
     return entityManager
         .createQuery(
-            "select distinct st from Student s join s.schoolClasses sc join sc.students st join fetch st.schoolClasses where s.id = :id",
+            "select distinct st from Student s "
+                + "join s.schoolClasses sc join sc.students st "
+                + "join fetch st.schoolClasses where s.id = :id and st.id != :id",
             Student.class)
-        .setParameter("id", id)
+        .setParameter("id", studentId)
         .getResultList();
   }
 }

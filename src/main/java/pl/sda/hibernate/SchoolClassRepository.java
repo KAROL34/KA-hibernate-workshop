@@ -1,7 +1,6 @@
 package pl.sda.hibernate;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import pl.sda.hibernate.model.*;
 
@@ -23,16 +22,15 @@ public class SchoolClassRepository {
             "select vt from VerbalTest vt join vt.schoolClass sc where sc.id = :id",
             VerbalTest.class)
         .setParameter("id", id)
-        .getResultStream()
-        .collect(Collectors.toList());
+        .getResultList();
   }
 
+  @SuppressWarnings("unchecked")
   public <T extends Test> List<T> getTestsByType(Class<T> type) {
-    return entityManager
-        .createQuery("from Test t where type(t) = :type", Test.class)
-        .setParameter("type", type)
-        .getResultStream()
-        .map(t -> (T) t)
-        .collect(Collectors.toList());
+    return (List<T>)
+        entityManager
+            .createQuery("from Test t where type(t) = :type", Test.class)
+            .setParameter("type", type)
+            .getResultList();
   }
 }
