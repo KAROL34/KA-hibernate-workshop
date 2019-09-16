@@ -9,9 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
-import pl.sda.hibernate.model.SchoolClass;
-import pl.sda.hibernate.model.VerbalTest;
-import pl.sda.hibernate.model.WrittenTest;
+import pl.sda.hibernate.model.*;
 import pl.sda.hibernate.utils.HibernateBootstraper;
 import pl.sda.test.base.DatabaseSetup;
 
@@ -60,7 +58,8 @@ class SchoolClassRepositoryTest {
 
   @Test
   void getSchoolClassByNameTest() {
-    assertThat(schoolClassRepository.getSchoolClassByName("Matematyka")).contains(new SchoolClass(1L, "Matematyka"));
+    assertThat(schoolClassRepository.getSchoolClassByName("Matematyka"))
+        .contains(new SchoolClass(1L, "Matematyka"));
   }
 
   @Test
@@ -80,9 +79,7 @@ class SchoolClassRepositoryTest {
     assertThat(
             new JdbcTemplate(db.getDatasource())
                 .queryForObject(
-                    "SELECT topic FROM LessonTopics WHERE topic = ?",
-                    String.class,
-                    "Dzielenie"))
+                    "SELECT topic FROM LessonTopics WHERE topic = ?", String.class, "Dzielenie"))
         .isEqualTo("Dzielenie");
   }
 
@@ -90,7 +87,28 @@ class SchoolClassRepositoryTest {
   void testGetTopics() {
 
     assertThat(schoolClassRepository.getTopics(Arrays.asList(1L, 2L, 3L)))
-            .containsExactlyInAnyOrder("Ułamki","Funkcja kwadratowa","Optyka","Mechanika","Estry","Kwasy");
+        .containsExactlyInAnyOrder(
+            "Ułamki", "Funkcja kwadratowa", "Optyka", "Mechanika", "Estry", "Kwasy");
+  }
 
+  @Test
+  void testGetStudentsBySchoolClassName() {
+
+    assertThat(schoolClassRepository.getStudentsBySchoolClassName("Chemia"))
+        .contains(
+            new Student(4L, "Błażej", "Rudnicki", LocalDate.parse("1998-12-03")),
+            new Student(3L, "Krystyna", "Kowal", LocalDate.parse("1996-03-11")));
+  }
+
+  @Test
+  void testGetStudentsNotesBySchoolClassId() {
+
+    assertThat(
+            schoolClassRepository
+                .getStudentsNotesBySchoolClassId(
+                    1L, LocalDate.parse("2019-02-01"), LocalDate.parse("2019-02-10"))
+                .stream()
+                .map(StudentNote::getId))
+        .containsOnly(1L);
   }
 }

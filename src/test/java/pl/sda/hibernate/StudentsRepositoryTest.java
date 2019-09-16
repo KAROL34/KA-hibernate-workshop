@@ -198,8 +198,8 @@ public class StudentsRepositoryTest {
   @DisplayName("All student entries should be returned")
   void testFindStudentByLastName() {
     Optional<Student> student = studentsRepository.getStudentByName("Rudnicki");
-    assertThat(student).contains(
-            new Student(4L, "Błażej", "Rudnicki", LocalDate.parse("1998-12-03")));
+    assertThat(student)
+        .contains(new Student(4L, "Błażej", "Rudnicki", LocalDate.parse("1998-12-03")));
   }
 
   @Test

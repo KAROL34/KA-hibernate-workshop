@@ -6,10 +6,7 @@ import java.util.StringJoiner;
 import javax.persistence.*;
 
 @Entity
-@NamedQuery(
-        name = "getSchoolClassByName",
-        query = "from SchoolClass t where name = :name"
-)
+@NamedQuery(name = "getSchoolClassByName", query = "from SchoolClass t where name = :name")
 public class SchoolClass {
 
   @Id
@@ -27,7 +24,7 @@ public class SchoolClass {
   private List<Test> tests;
 
   @CollectionTable(name = "LessonTopics", joinColumns = @JoinColumn(name = "schoolClass_id"))
-  @Column(name="topic")
+  @Column(name = "topic")
   @ElementCollection
   private List<String> lessonTopics;
 

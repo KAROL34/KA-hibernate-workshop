@@ -23,7 +23,7 @@ drop table if exists Test;
 
 create table SchoolClass
 (
-    id         bigint not null AUTO_INCREMENT,
+    id         bigint not null auto_increment,
     name       varchar(255),
     teacher_id bigint,
     primary key (id)
@@ -37,7 +37,7 @@ create table SchoolClassStudent
 
 create table Student
 (
-    id        bigint not null AUTO_INCREMENT,
+    id        bigint not null auto_increment,
     birthdate date,
     firstName varchar(255),
     lastName  varchar(255),
@@ -46,7 +46,7 @@ create table Student
 
 create table StudentNote
 (
-    id             bigint not null AUTO_INCREMENT,
+    id             bigint not null auto_increment,
     createdAt      date,
     value          integer,
     weight         integer default 1,
@@ -57,7 +57,7 @@ create table StudentNote
 
 create table Test
 (
-    id             bigint      not null AUTO_INCREMENT,
+    id             bigint      not null auto_increment,
     type           varchar(31) not null,
     date           date,
     subject        varchar(255),
@@ -69,7 +69,7 @@ create table Test
 
 create table Teacher
 (
-    id        bigint not null AUTO_INCREMENT,
+    id        bigint not null auto_increment,
     firstName varchar(255),
     lastName  varchar(255),
     primary key (id)

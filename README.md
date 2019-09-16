@@ -57,7 +57,4 @@
       dodaje pole `lessonTopics` o type kolekcji zawierającej typ `String`. 
       Zaimplementuj metody `addLessonTopic` oraz `getLessonTopics` w encji `SchoolClass`.
    6. Zaimplementuj metodę `getTopics`, która pozwala zwrócić listę tematów dla podanych `id` przedmiotów.
-   
-
-6. Zmodyfikuj metody w `StudentRepository` i `TeacherRepository` tak by używały **Criteria API**.
-
+   7. Zaimplementuj metody `getStudentsBySchoolClassName` oraz `getStudentsNotesBySchoolClassId` używając **Criteria API**.

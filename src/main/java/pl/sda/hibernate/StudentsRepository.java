@@ -70,9 +70,9 @@ public class StudentsRepository {
 
   public Optional<Student> getStudentByName(String name) {
     TypedQuery<Student> query =
-            entityManager.createQuery(
-                    "from Student s where lower(s.firstName) like lower(:name) or lower(s.lastName) like lower(:name)",
-                    Student.class);
+        entityManager.createQuery(
+            "from Student s where lower(s.firstName) like lower(:name) or lower(s.lastName) like lower(:name)",
+            Student.class);
     query.setParameter("name", name);
     try {
       return Optional.of(query.getSingleResult());
@@ -80,7 +80,6 @@ public class StudentsRepository {
       return Optional.empty();
     }
   }
-
 
   public List<SchoolClass> getClassesByStudentId(long studentId) {
     TypedQuery<SchoolClass> query =
@@ -100,6 +99,4 @@ public class StudentsRepository {
         .setParameter("id", studentId)
         .getResultList();
   }
-
-
 }

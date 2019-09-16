@@ -1,10 +1,10 @@
 package pl.sda.hibernate.model;
 
-import pl.sda.hibernate.model.dto.FullName;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
 import javax.persistence.*;
+import pl.sda.hibernate.model.dto.FullName;
 
 @Entity
 public class Teacher {
@@ -13,8 +13,7 @@ public class Teacher {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Embedded
-  private FullName fullName;
+  @Embedded private FullName fullName;
 
   @OneToMany(mappedBy = "teacher")
   private Set<SchoolClass> schoolClasses;

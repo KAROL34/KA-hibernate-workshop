@@ -17,7 +17,8 @@ public class TeachersRepository {
   public List<String> getTeachersNames() {
     TypedQuery<String> query =
         entityManager.createQuery(
-            "select concat(t.fullName.firstName, ' ', t.fullName.lastName) from Teacher t", String.class);
+            "select concat(t.fullName.firstName, ' ', t.fullName.lastName) from Teacher t",
+            String.class);
     return query.getResultList();
   }
 
