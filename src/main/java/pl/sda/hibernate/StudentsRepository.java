@@ -3,6 +3,7 @@ package pl.sda.hibernate;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import pl.sda.hibernate.model.SchoolClass;
 import pl.sda.hibernate.model.Student;
@@ -67,6 +68,20 @@ public class StudentsRepository {
     return query.getResultList();
   }
 
+  public Optional<Student> getStudentByName(String name) {
+    TypedQuery<Student> query =
+            entityManager.createQuery(
+                    "from Student s where lower(s.firstName) like lower(:name) or lower(s.lastName) like lower(:name)",
+                    Student.class);
+    query.setParameter("name", name);
+    try {
+      return Optional.of(query.getSingleResult());
+    } catch (NoResultException e) {
+      return Optional.empty();
+    }
+  }
+
+
   public List<SchoolClass> getClassesByStudentId(long studentId) {
     TypedQuery<SchoolClass> query =
         entityManager.createQuery(
@@ -85,4 +100,6 @@ public class StudentsRepository {
         .setParameter("id", studentId)
         .getResultList();
   }
+
+
 }

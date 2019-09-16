@@ -1,5 +1,6 @@
 package pl.sda.hibernate.model;
 
+import pl.sda.hibernate.model.dto.FullName;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
@@ -12,8 +13,8 @@ public class Teacher {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String firstName;
-  private String lastName;
+  @Embedded
+  private FullName fullName;
 
   @OneToMany(mappedBy = "teacher")
   private Set<SchoolClass> schoolClasses;
@@ -26,8 +27,7 @@ public class Teacher {
     Objects.requireNonNull(lastName);
 
     this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.fullName = new FullName(firstName, lastName);
   }
 
   public Long getId() {
@@ -35,19 +35,19 @@ public class Teacher {
   }
 
   public String getFirstName() {
-    return firstName;
+    return fullName.getFirstName();
   }
 
   public void setFirstName(String firstName) {
-    this.firstName = firstName;
+    this.fullName.setFirstName(firstName);
   }
 
   public String getLastName() {
-    return lastName;
+    return fullName.getLastName();
   }
 
   public void setLastName(String lastName) {
-    this.lastName = lastName;
+    this.fullName.setLastName(lastName);
   }
 
   public Set<SchoolClass> getSchoolClasses() {
@@ -69,9 +69,9 @@ public class Teacher {
   @Override
   public String toString() {
     return new StringJoiner(", ", Teacher.class.getSimpleName() + "[", "]")
-        .add("id=" + id)
-        .add("firstName='" + firstName + "'")
-        .add("lastName='" + lastName + "'")
+        .add("id=" + getId())
+        .add("firstName='" + getFirstName() + "'")
+        .add("lastName='" + getLastName() + "'")
         .toString();
   }
 
@@ -80,13 +80,13 @@ public class Teacher {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Teacher student = (Teacher) o;
-    return Objects.equals(id, student.id)
-        && firstName.equals(student.firstName)
-        && lastName.equals(student.lastName);
+    return Objects.equals(id, student.getId())
+        && getFirstName().equals(student.getFirstName())
+        && getLastName().equals(student.getLastName());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, firstName, lastName);
+    return Objects.hash(getId(), getFirstName(), getLastName());
   }
 }
